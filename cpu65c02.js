@@ -206,7 +206,7 @@ function CPU65C02 (read, write) {
 	var opcodes = [
 		function() { pushWord(cpu.pc + 1); cpu.pfb = 1 ; push(getP()) ; cpu.pfd = 0 ; cpu.pfi = 1 ; cpu.pc = readWord(0xFFFE) }, /* 0x0 BRK Implied */
 		function() { setNZ(cpu.a |= read($zpxi())) }, /* 0x1 ORA (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0x2 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x2 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0x3 NOP (nonstd loc, implied) */
 		function() { $TSB($zp()) }, /* 0x4 TSB Zero_Page */
 		function() { setNZ(cpu.a |= read($zp())) }, /* 0x5 ORA Zero_Page */
@@ -238,7 +238,7 @@ function CPU65C02 (read, write) {
 		function() { $BRA(!(read($zp()) & 2)) }, /* 0x1f BBR Relative */
 		function() { pushWord(cpu.pc + 1) ; cpu.pc = $abs() }, /* 0x20 JSR Absolute */
 		function() { setNZ(cpu.a &= read($zpxi())) }, /* 0x21 AND (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0x22 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x22 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0x23 NOP (nonstd loc, implied) */
 		function() { $BIT(read($zp())) }, /* 0x24 BIT Zero_Page */
 		function() { setNZ(cpu.a &= read($zp())) }, /* 0x25 AND Zero_Page */
@@ -270,9 +270,9 @@ function CPU65C02 (read, write) {
 		function() { $BRA(!(read($zp()) & 8)) }, /* 0x3f BBR Relative */
 		function() { setP(pop() | 0x10) ; cpu.pc = popWord() }, /* 0x40 RTI Implied */
 		function() { setNZ(cpu.a ^= read($zpxi())) }, /* 0x41 EOR (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0x42 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x42 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0x43 NOP (nonstd loc, implied) */
-		function() { inc_PC(1) }, /* 0x44 NOP zp (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x44 NOP zp (non-std NOP with addr mode) */
 		function() { setNZ(cpu.a ^= read($zp())) }, /* 0x45 EOR Zero_Page */
 		function() { $LSR($zp()) }, /* 0x46 LSR Zero_Page */
 		function() { var a = $zp() ; write(a, read(a) & 239) }, /* 0x47 RMB Zero_Page */
@@ -288,7 +288,7 @@ function CPU65C02 (read, write) {
 		function() { setNZ(cpu.a ^= read($zpiy())) }, /* 0x51 EOR (Zero_Page),Y */
 		function() { setNZ(cpu.a ^= read($zpi())) }, /* 0x52 EOR (Zero_Page) */
 		function() {  }, /* 0x53 NOP (nonstd loc, implied) */
-		function() { inc_PC(1) }, /* 0x54 NOP zpx (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x54 NOP zpx (non-std NOP with addr mode) */
 		function() { setNZ(cpu.a ^= read($zpx())) }, /* 0x55 EOR Zero_Page,X */
 		function() { $LSR($zpx()) }, /* 0x56 LSR Zero_Page,X */
 		function() { var a = $zp() ; write(a, read(a) & 223) }, /* 0x57 RMB Zero_Page */
@@ -302,7 +302,7 @@ function CPU65C02 (read, write) {
 		function() { $BRA(!(read($zp()) & 32)) }, /* 0x5f BBR Relative */
 		function() { cpu.pc = (popWord() + 1) & 0xFFFF }, /* 0x60 RTS Implied */
 		function() { $ADC(read($zpxi())) }, /* 0x61 ADC (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0x62 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x62 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0x63 NOP (nonstd loc, implied) */
 		function() { write($zp(), 0) }, /* 0x64 STZ Zero_Page */
 		function() { $ADC(read($zp())) }, /* 0x65 ADC Zero_Page */
@@ -334,7 +334,7 @@ function CPU65C02 (read, write) {
 		function() { $BRA(!(read($zp()) & 128)) }, /* 0x7f BBR Relative */
 		function() { $BRA(1) }, /* 0x80 BRA Relative */
 		function() { write($zpxi(), cpu.a) }, /* 0x81 STA (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0x82 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0x82 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0x83 NOP (nonstd loc, implied) */
 		function() { write($zp(), cpu.y) }, /* 0x84 STY Zero_Page */
 		function() { write($zp(), cpu.a) }, /* 0x85 STA Zero_Page */
@@ -398,7 +398,7 @@ function CPU65C02 (read, write) {
 		function() { $BRA(  read($zp()) & 8 ) }, /* 0xbf BBS Relative */
 		function() { $CMP(cpu.y, read($imm())) }, /* 0xc0 CPY Immediate */
 		function() { $CMP(cpu.a, read($zpxi())) }, /* 0xc1 CMP (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0xc2 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0xc2 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0xc3 NOP (nonstd loc, implied) */
 		function() { $CMP(cpu.y, read($zp())) }, /* 0xc4 CPY Zero_Page */
 		function() { $CMP(cpu.a, read($zp())) }, /* 0xc5 CMP Zero_Page */
@@ -416,7 +416,7 @@ function CPU65C02 (read, write) {
 		function() { $CMP(cpu.a, read($zpiy())) }, /* 0xd1 CMP (Zero_Page),Y */
 		function() { $CMP(cpu.a, read($zpi())) }, /* 0xd2 CMP (Zero_Page) */
 		function() {  }, /* 0xd3 NOP (nonstd loc, implied) */
-		function() { inc_PC(1) }, /* 0xd4 NOP zpx (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0xd4 NOP zpx (non-std NOP with addr mode) */
 		function() { $CMP(cpu.a, read($zpx())) }, /* 0xd5 CMP Zero_Page,X */
 		function() { var addr = $zpx() ; var data = (read(addr) - 1) & 0xFF ; setNZ(data) ; write(addr, data) }, /* 0xd6 DEC Zero_Page,X */
 		function() { var a = $zp() ; write(a, read(a) | 32) }, /* 0xd7 SMB Zero_Page */
@@ -430,7 +430,7 @@ function CPU65C02 (read, write) {
 		function() { $BRA(  read($zp()) & 32 ) }, /* 0xdf BBS Relative */
 		function() { $CMP(cpu.x, read($imm())) }, /* 0xe0 CPX Immediate */
 		function() { $SBC(read($zpxi())) }, /* 0xe1 SBC (Zero_Page,X) */
-		function() { inc_PC(1) }, /* 0xe2 NOP imm (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0xe2 NOP imm (non-std NOP with addr mode) */
 		function() {  }, /* 0xe3 NOP (nonstd loc, implied) */
 		function() { $CMP(cpu.x, read($zp())) }, /* 0xe4 CPX Zero_Page */
 		function() { $SBC(read($zp())) }, /* 0xe5 SBC Zero_Page */
@@ -448,7 +448,7 @@ function CPU65C02 (read, write) {
 		function() { $SBC(read($zpiy())) }, /* 0xf1 SBC (Zero_Page),Y */
 		function() { $SBC(read($zpi())) }, /* 0xf2 SBC (Zero_Page) */
 		function() {  }, /* 0xf3 NOP (nonstd loc, implied) */
-		function() { inc_PC(1) }, /* 0xf4 NOP zpx (non-std NOP with addr mode) */
+		function() { incPC(1) }, /* 0xf4 NOP zpx (non-std NOP with addr mode) */
 		function() { $SBC(read($zpx())) }, /* 0xf5 SBC Zero_Page,X */
 		function() { var addr = $zpx() ; var data = (read(addr) + 1) & 0xFF ; setNZ(data) ; write(addr, data) }, /* 0xf6 INC Zero_Page,X */
 		function() { var a = $zp() ; write(a, read(a) | 128) }, /* 0xf7 SMB Zero_Page */
