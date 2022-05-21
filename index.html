@@ -3,15 +3,44 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Commodore LCD emulator</title>
-	<link rel="stylesheet" type="text/css" href="http://lgb.hu/css/lgb.css" media="all">
-	<link rel="SHORTCUT ICON" type="image/x-icon" href="http://lgb.hu/favicon.ico">
-	<script type="text/javascript" src="cpu65c02.js"></script>
-	<script type="text/javascript" src="via.js"></script>
-	<script type="text/javascript" src="acia.js"></script>
-	<script type="text/javascript" src="netiec.js"></script>
-	<script type="text/javascript" src="keyboard-clcd.js"></script>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+	<script type="text/javascript" src="/cpu65c02.js"></script>
+	<script type="text/javascript" src="/via.js"></script>
+	<script type="text/javascript" src="/acia.js"></script>
+	<script type="text/javascript" src="/netiec.js"></script>
+	<script type="text/javascript" src="/keyboard-clcd.js"></script>
 	<style>
-		body { background: #C0C0E0; }
+		body {
+			background: #C0C0E0;
+			color: #000000;
+			padding: 5px;
+			margin: 5px;
+			margin-top: 0px;
+			padding-top: 0px;
+		}
+		h1 {
+			border-bottom: 4px solid #007000;
+			padding-bottom: 1px;
+		}
+		h2 {
+			border-bottom: 2px solid #007000;
+			padding-bottom: 1px;
+		}
+		a:link, a:visited {
+			color: #000070;
+			font-weight: bold;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: none;
+			color: #FF0000;
+			font-weight: bold;
+		}
+		a:active {
+			text-decoration: none;
+			color: #00FF00;
+			font-weight: bold;
+		}
 		canvas {
 			background: #C0C0C0;
 			padding: 5px;
@@ -28,11 +57,8 @@
 	</style>
 </head>
 <body>
-	<h1><a href="http://commodore-lcd.lgb.hu/">Commodore LCD</a> emulator</h1>
+	<h1>Commodore LCD emulator</h1>
 	<p>&copy;2013,2014 LGB (Gabor Lenart)
-	<b>[<a href="http://commodore-lcd.lgb.hu/emulator.html">About the emulator</a>]
-	[<a href="http://commodore-lcd.lgb.hu/specification.html">Specification</a>]
-	[<a href="http://commodore-lcd.lgb.hu/">Main page</a>]</b>
 	</p>
 	<table><tr>
 	<td valign="top">
@@ -119,7 +145,7 @@
 		function loadROM(fn, offset, memory) {
 			var http = new XMLHttpRequest();
 			console.log("Loading ROM image via AJAX call: " + fn);
-			http.open("GET", "http://ep.lgb.hu/jsep/data/?GetBinary=" + fn, false);
+			http.open("GET", "/roms/" + fn, false);
 			http.overrideMimeType('text\/plain; charset=x-user-defined');
 			var err;
 			try {
@@ -152,7 +178,7 @@
 		//loadROM("65test", 0x4000);
 		loadROM("sizapr-u103.bin",        0x30000, memory);
 		loadROM("sept-M-13apr-u104.bin",  0x28000, memory);
-		loadROM("SS-CALC-13apr-u105.bin", 0x20000, memory);
+		loadROM("ss-calc-13apr-u105.bin", 0x20000, memory);
 		memory[0x385BB] = 0xEA;
 		memory[0x385BC] = 0xEA;
 		var options = (function () {
